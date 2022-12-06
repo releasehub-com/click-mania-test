@@ -1,0 +1,25 @@
+services:
+  mysql:
+    image: mysql
+    environment:
+      - MYSQL_DATABASE=aurora
+      - MYSQL_USER=potest
+      - MYSQL_PASSWORD=whatever
+      - MYSQL_ROOT_PASSWORD=kjashdfkjasdhdashjkasdhkj
+  server:
+    image: aurora
+    environment:
+      - DB_HOST=mysql
+      - DB_NAME=aurora
+      - DB_USER=potest
+      - DB_PASSWORD=whatever
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mysql
+    command:
+      - wait-for-it
+      - mysql:3306
+      - --
+      - /srv/aurora-test
+      - start
