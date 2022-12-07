@@ -7,7 +7,8 @@ services:
       - MYSQL_PASSWORD=whatever
       - MYSQL_ROOT_PASSWORD=kjashdfkjasdhdashjkasdhkj
   server:
-    image: aurora
+    build:
+      ./
     environment:
       - DB_HOST=mysql
       - DB_NAME=aurora
