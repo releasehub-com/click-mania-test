@@ -1,6 +1,5 @@
 FROM golang:latest
 
-RUN apt-get update -y
 RUN apt-get install -y wait-for-it
 
 COPY . /src
