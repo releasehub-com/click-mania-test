@@ -1,4 +1,4 @@
-FROM golang:latest
+FROM golang:1.20
 
 RUN apt-get install -y wait-for-it
 
