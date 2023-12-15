@@ -20,6 +20,10 @@ services:
 - name: mysql
   image: mysql
   has_repo: false
+  ports:
+  - type: node_port
+    target_port: 3306
+    port: 3306
 - name: server
   image: releasehub-com/click-mania-test/server
   build:
