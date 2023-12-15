@@ -1,0 +1,60 @@
+---
+auto_deploy: true
+context: release-customer-us-west-2
+domain: rls.sh
+repo_name: releasehub-com/click-mania-test
+hostnames:
+- server: server-child-${env_id}.${domain}
+environment_templates:
+- name: ephemeral
+- name: permanent
+resources:
+  cpu:
+    limits: 1000m
+    requests: 100m
+  memory:
+    limits: 1Gi
+    requests: 100Mi
+  replicas: 1
+services:
+- name: mysql
+  image: mysql
+  has_repo: false
+- name: server
+  image: releasehub-com/click-mania-test/server
+  build:
+    context: "."
+  has_repo: true
+  args:
+  - wait-for-it
+  - mysql:3306
+  - "--"
+  - "/srv/aurora-test"
+  - start
+  depends_on:
+  - mysql
+  ports:
+  - type: node_port
+    target_port: '3000'
+    port: '3000'
+    loadbalancer: false
+workflows:
+- name: setup
+  parallelize:
+  - step: services-0
+    tasks:
+    - services.mysql
+  - step: services-1
+    tasks:
+    - services.server
+- name: patch
+  parallelize:
+  - step: services-0
+    tasks:
+    - services.server
+- name: teardown
+  parallelize:
+  - step: remove-environment
+    tasks:
+    - release.remove_environment
+

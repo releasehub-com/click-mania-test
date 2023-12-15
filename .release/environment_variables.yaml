@@ -1,0 +1,23 @@
+---
+defaults: []
+services:
+  mysql:
+  - key: MYSQL_USER
+    value: potest
+  - key: MYSQL_DATABASE
+    value: aurora
+  - key: MYSQL_PASSWORD
+    value: whatever
+  - key: MYSQL_ROOT_PASSWORD
+    value: kjashdfkjasdhdashjkasdhkj
+  server:
+  - key: DB_HOST
+    value: mysql
+  - key: DB_NAME
+    value: aurora
+  - key: DB_USER
+    value: potest
+  - key: DB_PASSWORD
+    value: whatever
+mapping: {}
+
